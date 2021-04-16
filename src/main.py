@@ -19,6 +19,14 @@ class EtlScript:
     def load_file_to_database(self, file_path: str):
         self.database_conn.load_file(file_path)
 
+    def column_test(self, header, data):
+        '''For now, the the test criteria is to check if 
+        the num. of columns in header and num. of columns 
+        in the first row of data matcges. If there are 
+        more criterias, it can be added here'''
+        test = data.split('\n',1)[0].split('|')
+        return len(header) == len(test)
+
     def run(self):
         # Bringing the header
         with open(self.header_file,'r') as f1:
@@ -41,8 +49,7 @@ class EtlScript:
         # Testing if the num. of columns in header
         # matches the num. of columns in the
         # data file.
-        test = data.split('\n',1)[0].split('|')
-        if len(header) != len(test):
+        if not self.column_test(header, data):
             # Just logging and returning -1 for now, ideally 
             # emails and messages would be triggered here
             logger.critical(f"Num. of columns do not match in {self.header_file} & {self.data_file}")
