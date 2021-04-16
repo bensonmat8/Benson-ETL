@@ -22,7 +22,7 @@ class EtlScript:
     def column_test(self, header, data):
         '''For now, the the test criteria is to check if 
         the num. of columns in header and num. of columns 
-        in the first row of data matcges. If there are 
+        in the first row of data match. If there are 
         more criterias, it can be added here'''
         test = data.split('\n',1)[0].split('|')
         return len(header) == len(test)
